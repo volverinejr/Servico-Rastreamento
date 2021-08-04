@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sun.net.httpserver.Authenticator.Success;
+
 import br.com.claudemirojr.rastreamento.dto.LogPesquisaDto;
 import br.com.claudemirojr.rastreamento.dto.LogPesquisaResponseDto;
 import br.com.claudemirojr.rastreamento.model.ParamsRequestModel;
@@ -29,12 +31,22 @@ public class LogPesquisaController {
 	private LogPesquisaService logPesquisaService;
 
 	@PostMapping
+	public ResponseEntity<?> create(@RequestBody @Valid LogPesquisaDto logPesquisaDto) {
+		logPesquisaService.criar(logPesquisaDto);
+
+		return new ResponseEntity<Success>(HttpStatus.ACCEPTED);
+	}
+	
+	
+/*	
+	@PostMapping
 	public ResponseEntity<LogPesquisaResponseDto> create(@RequestBody @Valid LogPesquisaDto logPesquisaDto) {
 		LogPesquisaResponseDto novo = logPesquisaService.criar(logPesquisaDto);
 
 		return new ResponseEntity<>(novo, HttpStatus.CREATED);
 	}
-
+*/	
+	
 	@GetMapping
 	public ResponseEntity<?> findAll(@RequestParam Map<String, String> params) {
 		ParamsRequestModel prm = new ParamsRequestModel(params);
