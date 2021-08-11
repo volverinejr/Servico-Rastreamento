@@ -1,11 +1,8 @@
 package br.com.claudemirojr.rastreamento.model.service;
 
-import java.util.concurrent.CompletableFuture;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import br.com.claudemirojr.rastreamento.converter.DozerConverter;
@@ -27,13 +24,11 @@ public class LogPesquisaServiceImpl implements LogPesquisaService {
 	}
 
 	@Override
-	@Async("asyncExecutor")
-	public CompletableFuture<LogPesquisaResponseDto> criar(LogPesquisaDto logPesquisaCriarDto) {
+	//@Async("asyncExecutor")
+	public void criar(LogPesquisaDto logPesquisaCriarDto) {
 		var entity = DozerConverter.parseObject(logPesquisaCriarDto, LogPesquisa.class);
 
-		var pagina = logPesquisaRepository.save(entity);
-
-		return CompletableFuture.completedFuture(convertToLogPesquisaResponseDto(pagina));
+		logPesquisaRepository.save(entity);
 	}
 
 	@Override
